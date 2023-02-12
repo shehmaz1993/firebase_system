@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_implementation/sign_in/signin.dart';
 import 'package:firebase_implementation/utils/utils.dart';
 import 'package:flutter/services.dart';
 
@@ -31,6 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
         password: passwordController.text.toString()
     ).then((value){
       print('user added');
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>SignInPage()));
     }).onError((error, stackTrace){
       Utils().toastMessage(error.toString());
     });

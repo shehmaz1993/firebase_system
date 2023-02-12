@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
 
+import '../HomePage.dart';
+import '../sign_up/signup.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -30,6 +33,8 @@ class _SignInPageState extends State<SignInPage> {
        email:emailController.text.toString() ,
        password:passwordController.text.toString()
    ).then((value) {
+     Utils().toastMessage(value.user!.email.toString());
+     Navigator.push(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
      print('user logging in');
    }).onError((error, stackTrace) {
      Utils().toastMessage(error.toString());
@@ -98,15 +103,11 @@ class _SignInPageState extends State<SignInPage> {
             padding: const EdgeInsets.only(left:68.0,right: 68.0,top: 20.0),
             child: Row(
               children: [
-                GestureDetector(
-                    onTap: (){},
-                    child: Text('Forgot password?',style: TextStyle(color: Colors.lightBlue),)
-
-                ),
+                Text('Forgot password?',style: TextStyle(color: Colors.lightBlue),),
                 SizedBox(width: 10,),
                 GestureDetector(
                     onTap:(){
-                    //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpPage()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpPage()));
                     },
                     child: Text('create account!',style: TextStyle(color: Colors.lightBlue),))
               ],
