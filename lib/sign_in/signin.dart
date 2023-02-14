@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_implementation/sign_in/signin_phone.dart';
 import 'package:firebase_implementation/utils/utils.dart';
 import 'package:flutter/services.dart';
 
@@ -99,6 +100,30 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
           const SizedBox(height: 10,),
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 22.0, top: 18.0, bottom: 0.0, right: 22.0),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder:(context)=>const SignInWithPhone()));
+            },
+            child: Container(
+              width: 266, //266.0,
+              height: 48.0, //48.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24.0),
+                // color: const Color(0xffe7ebee),
+                border: Border.all(
+                    width: 2.0,
+                    color:Colors.grey
+                ),
+              ),
+              child: const Center(
+                child: Text('Sign In with phone Number'),
+              )
+            ),
+          ),
+        ),
           Padding(
             padding: const EdgeInsets.only(left:68.0,right: 68.0,top: 20.0),
             child: Row(
