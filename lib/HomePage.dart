@@ -14,6 +14,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      bottomSheet: MaterialButton(
+                     onPressed: () {
+
+                     },
+                   ),
       appBar: AppBar(
         title: Text('Home Screen'),
         centerTitle: true,

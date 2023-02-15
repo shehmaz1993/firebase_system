@@ -30,11 +30,9 @@ class _VerifyCodeState extends State<VerifyCode> {
   }
   @override
   void initState() {
-    //  final SignInInfo infoOfSignIn = Provider.of<SignInInfo>(context, listen: false);
+
     // TODO: implement initState
     super.initState();
-    // phoneNumberController=TextEditingController(text: infoOfSignIn.phoneNumber);
-    // passwordController=TextEditingController(text: infoOfSignIn.password);
 
   }
   @override

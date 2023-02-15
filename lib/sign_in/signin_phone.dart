@@ -31,7 +31,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
   // Repository repo=Repository();
   void verifyPhoneNumber(){
     _auth.verifyPhoneNumber(
-        phoneNumber:phoneController.text ,
+        phoneNumber:'+88${phoneController.text.toString()}' ,
         verificationCompleted:(_){
 
         },
