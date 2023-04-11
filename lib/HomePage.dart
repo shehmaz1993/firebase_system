@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_implementation/add_post.dart';
 import 'package:firebase_implementation/sign_in/signin.dart';
 import 'package:firebase_implementation/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +16,21 @@ class _HomeScreenState extends State<HomeScreen> {
   final auth=FirebaseAuth.instance;
   final ref=FirebaseDatabase.instance.ref('info');
   var steamController=TextEditingController();
+  var editController=TextEditingController();
   @override
   Widget build(BuildContext context) {
+    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddData()));
     return  Scaffold(
-      bottomSheet: MaterialButton(
-                     onPressed: () {
-
-                     },
-                   ),
+       floatingActionButton: ElevatedButton(
+           onPressed: () {
+             Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddData()));
+           },
+           style: ElevatedButton.styleFrom(
+             fixedSize: const Size(20, 20),
+             shape: const CircleBorder(),
+           ),
+           child:const Icon(Icons.add)
+       ),
       appBar: AppBar(
         title: Text('Home Screen'),
         centerTitle: true,
@@ -40,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -60,19 +68,47 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-              height: 300,
+              height: 800,
               width: double.infinity,
               child: FirebaseAnimatedList(
                   query: ref,
                   defaultChild: const Text('loading'),
                   itemBuilder: (context,snapshot,animation,index){
                     String title=snapshot.child('designation').value.toString();
+                    String  id=DateTime.now().microsecondsSinceEpoch.toString();
                     if(steamController.text.isEmpty){
                       return Card(
                         child: ListTile(
                           title:Text(snapshot.child('designation').value.toString()) ,
                           subtitle:Text(snapshot.child('salary').value.toString()),
                           leading: Text(snapshot.child('id').value.toString()),
+                          trailing: PopupMenuButton(
+                            icon: const Icon(Icons.more_vert),
+                            itemBuilder: (BuildContext context)=>[
+                               PopupMenuItem(
+                                   value: 1,
+                                  child: ListTile(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                      showMyDialog(title, id);
+
+                                    },
+                                    leading: const Icon(Icons.edit),
+                                    title: const Text('Edit'),
+                                  )
+                              ),
+                               PopupMenuItem(
+                                   value:1,
+                                  child: ListTile(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                      ref.child(snapshot.child('id').value.toString()).remove();
+                                    },
+                                    leading: const Icon(Icons.delete),
+                                    title: const Text('Delete'),
+                                  )
+                              )
+                            ] ),
                         ),
                       );
 
@@ -95,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 10,),
+
           //using stream builder
          /* Expanded(
               child:StreamBuilder(
@@ -130,6 +167,45 @@ class _HomeScreenState extends State<HomeScreen> {
           )*/
         ],
       ),
+    );
+  }
+  Future showMyDialog(String title,String id){
+    editController.text=title;
+    return showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: const Text('Update'),
+            content: TextField(
+              controller: editController,
+              decoration: const InputDecoration(
+                  hintText: 'Edit'
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed:(){
+                    Navigator.pop(context);
+                  },
+                  child:const Text('cancel')
+              ),
+              TextButton(
+                  onPressed:(){
+                    Navigator.pop(context);
+                    ref.child(id).update({
+                      'designation':editController.text
+
+                    }).then((value){
+                      Utils().toastMessage('designation changed');
+                    }).onError((error, stackTrace){
+                      Utils().toastMessage(error.toString());
+                    });
+                  },
+                  child:const Text('update')
+              ),
+            ],
+          );
+        }
     );
   }
 }
