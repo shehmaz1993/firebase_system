@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_implementation/HomePage.dart';
 import 'package:firebase_implementation/add_post.dart';
+import 'package:firebase_implementation/firestore/add_firestore_data.dart';
 import 'package:firebase_implementation/sign_in/signin.dart';
 import 'package:firebase_implementation/sign_in/signin_phone.dart';
 import 'package:firebase_implementation/sign_up/signup.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:HomeScreen(),
+      home:AddDataToFireStore(),
     );
   }
 }
